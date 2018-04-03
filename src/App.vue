@@ -1,29 +1,10 @@
 <template>
   <v-app>
-    <left-navigation 
-      v-bind:clipped="clipped"
-      v-bind:drawer="drawer"
-      v-bind:miniVariant="miniVariant"
-      />
-    <toolbar
-      v-bind:clipped="clipped"
-      v-bind:drawer="drawer"
-      v-bind:miniVariant="miniVariant"
-      v-bind:fixed="fixed"
-      />
+    <toolbar />
     <v-content>
       <v-container fluid>
         <v-slide-y-transition mode="out-in">
-          <v-layout column align-center>
-            <v-text-field
-              label="Name"
-              @blur="addName"
-              @keyup.enter="addName"
-              @keyup.esc="username=null"
-              v-model="username"
-              v-if="!session"
-            ></v-text-field>
-          </v-layout>
+          <router-view></router-view>
         </v-slide-y-transition>
       </v-container>
     </v-content>
@@ -34,10 +15,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import { mapActions } from 'vuex'
-  import LeftNavigation from './components/shared/LeftNavigation'
-  import Toolbar from './components/shared/Toolbar'
+  // import LeftNavigation from './components/global/LeftNavigation'
+  import Toolbar from './components/global/Toolbar'
 
   export default {
     data () {
@@ -45,29 +24,11 @@
         fixed: false,
         clipped: false,
         drawer: true,
-        miniVariant: false,
-        username: null,
-        showAddPanel: false
+        miniVariant: false
       }
     },
-    computed: { 
-      ...mapState([
-        'author',
-        'session'
-      ])
-    },
-    methods: {
-      addName: function() {
-        if(this.username && this.username.trim() !== '') {
-          this.setAuthor(this.username)
-        }
-      },
-      ...mapActions([
-        'setAuthor'
-      ])
-    },
     components: {
-      LeftNavigation,
+      // LeftNavigation,
       Toolbar
     }
   }

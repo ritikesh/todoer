@@ -26,6 +26,11 @@ export default new Vuex.Store({
             const items = state.items || []
             items.push(item)
             state.items = items
+        },
+        logout(state) {
+            state.items = []
+            state.author = null
+            state.session = null
         }
     },
     actions: {
@@ -34,6 +39,9 @@ export default new Vuex.Store({
         },
         setItem({commit}, item) {
             commit('setItem', item)
+        },
+        logout({commit}) {
+            commit('logout')
         }
     }
 })
