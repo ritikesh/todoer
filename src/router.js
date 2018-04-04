@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Login from './components/Login'
 import AppForm from './components/App/Form'
 import ItemForm from './components/App/ItemForm'
+import Item from './components/App/Item'
 
 Vue.use(Router)
 
@@ -30,7 +31,7 @@ export default new Router({
       component: AppForm
     },
     {
-      path: 'app/:appId',
+      path: 'app/:appId/new',
       name: 'add-item',
       component: ItemForm
     },
@@ -38,6 +39,11 @@ export default new Router({
       path: 'app/:appId/:itemId/edit',
       name: 'edit-item',
       component: ItemForm
+    },
+    {
+      path: 'app/:appId/:itemId',
+      name: 'show-item',
+      component: Item
     },
     {
       path: '*',

@@ -17,6 +17,14 @@ export default new Vuex.Store({
         author: null,
         session: null
     },
+    getters: {
+        getTodoList: (state) => (appId) => {
+            return state.apps[appId].todoList.split(",")
+        },
+        cloneObject: (state) => (obj) => {
+            return JSON.parse(JSON.stringify(obj));
+        }
+    },
     mutations: {
         setAuthor (state, author) {
             state.author = author
@@ -35,8 +43,12 @@ export default new Vuex.Store({
             const app = state.apps[item.appId]
             if(app == undefined) return
             const items = app.items
-            item.id = items.length
-            items.push(item)
+            if(item.id == undefined) {
+                item.id = items.length
+                items.push(item)
+            } else {
+                items[item.id] = item
+            }
         },
         logout(state) {
             state.apps = []

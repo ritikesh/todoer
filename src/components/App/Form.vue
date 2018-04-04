@@ -45,6 +45,7 @@
 <script>
     import { mapState } from 'vuex'
     import { mapActions } from 'vuex'
+    import { mapGetters } from 'vuex'
 
     export default {
         data: () => ({
@@ -61,10 +62,16 @@
                 v => !!v || 'This field is required'
             ]
         }),
-        computed: mapState([
-            'apps',
-            'route'
-        ]),
+        computed: { 
+            ...mapState([
+                'apps',
+                'route'
+            ]),
+            ...mapGetters([
+                'getTodoList',
+                'cloneObject'
+            ])
+        },
         mounted () {
             this.resetApp()
         },
@@ -89,11 +96,8 @@
                     this.clear()
                     return
                 }
-                this.custom_app = this.deepClone(this.apps[appId])
+                this.custom_app = this.cloneObject(this.apps[appId])
                 this.custom_app.id = appId
-            },
-            deepClone(object) {
-                return JSON.parse(JSON.stringify(object));
             }
         },
         watch: {

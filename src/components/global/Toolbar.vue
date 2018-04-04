@@ -19,10 +19,12 @@
               </router-link>
             </v-list-tile-title>
           </v-list-tile>
-          <v-list-tile 
-            value="true"
+          <v-list-group
             v-for="(app, i) in apps"
-            :key="i">
+            :key="i"
+            no-action
+          >
+            <v-list-tile slot="activator">
               <v-list-tile-action>
                 <img v-bind:src="app.icon" />
               </v-list-tile-action>
@@ -34,7 +36,8 @@
                   :to="{ 
                     name: 'edit-app', 
                     params: { appId: i }
-                  }">
+                  }"
+                  @click.native.stop>
                   <v-icon>edit</v-icon>
                 </v-btn>
               </v-list-tile-action>
@@ -43,11 +46,48 @@
                   :to="{ 
                     name: 'add-item', 
                     params: { appId: i }
-                  }">
+                  }"
+                  @click.native.stop>
                   <v-icon>add</v-icon>
                 </v-btn>
               </v-list-tile-action>
-          </v-list-tile>
+            </v-list-tile>
+            <v-list-tile
+              value="true"
+              v-for="(item, n) in app.items"
+              :key="n">
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  <router-link 
+                    :to="{ 
+                      name: 'show-item', 
+                      params: { appId: i, itemId: n }
+                    }">
+                    {{item.title}}
+                  </router-link>
+                </v-list-tile-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn icon flat
+                  :to="{ 
+                    name: 'edit-item', 
+                    params: { appId: i, itemId: n }
+                  }">
+                  <v-icon>edit</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+            <v-list-tile 
+              value="true"
+              v-if="!app.items.length">
+                <v-list-tile-action>
+                  <v-icon>block</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title> No items Found in this List</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>
           <v-list-tile 
             value="true"
             v-if="!apps.length">
