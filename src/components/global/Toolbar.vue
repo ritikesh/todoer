@@ -25,9 +25,9 @@
             no-action
           >
             <v-list-tile slot="activator">
-              <v-list-tile-action>
+              <v-list-tile-avatar>
                 <img v-bind:src="app.icon" />
-              </v-list-tile-action>
+              </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title v-text="app.title"></v-list-tile-title>
               </v-list-tile-content>
@@ -95,8 +95,20 @@
                 <v-icon>block</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title> No Lists Found</v-list-tile-title>
+                <v-list-tile-title> 
+                  No Lists Found
+                </v-list-tile-title>
               </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn dark medium flat
+                  :to="{
+                    name: 'add-app'
+                  }"
+                  v-if="session"
+                  color="purple">
+                  Add Now
+                </v-btn>
+              </v-list-tile-action>
           </v-list-tile>
         </v-list>
     </v-navigation-drawer>
@@ -125,7 +137,7 @@
         <v-icon>add</v-icon>
       </v-btn>
       <v-btn fab small dark color="purple"
-        @click="logout"
+        @click="logoutHandler"
         v-if="session">
         <v-icon>power_settings_new</v-icon>
       </v-btn>
@@ -155,8 +167,11 @@
       authorMessage: function() {
         return `Welcome, ${this.author}`
       },
-      logout: function() {
+      logoutHandler: function() {
         this.logout()
+        this.$router.push({
+          name: 'default'
+        })
       },
       ...mapActions([
         'logout'

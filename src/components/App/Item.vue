@@ -3,7 +3,10 @@
       <v-container
         fluid
         grid-list-lg>
-        <span class="headline"> Checklist </span>
+        <h2 class="title primary--text"> Checklist </h2>
+        <p class="text-xs-left mt-3 ml-1 subheading">
+            {{item.description}}
+        </p>
         <v-list-tile
             value="true"
             class="mt-4"
@@ -13,7 +16,7 @@
                 <v-switch 
                 :label="todo" 
                 v-model="item.todoMap[n]"
-                @click="toggle">
+                @click.native="toggle">
                 </v-switch>
             </v-list-tile-content>
         </v-list-tile>

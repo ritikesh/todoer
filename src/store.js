@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     strict: true,
     plugins: [
         createPersistedState({
@@ -71,3 +71,5 @@ export default new Vuex.Store({
         }
     }
 })
+
+export default store
