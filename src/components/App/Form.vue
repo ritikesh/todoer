@@ -7,7 +7,7 @@
         <v-form v-model="valid" ref="form" class="mt-4" lazy-validation>
             <v-text-field
                 label="Title"
-                v-model="title"
+                v-model="custom_app.title"
                 placeholder="Purpose"
                 :rules="stringRules"
                 required
@@ -15,19 +15,19 @@
             <v-text-field
                 label="Icon Badge"
                 placeholder="https://assets1.freshservice.com/assets/app_logo.png"
-                v-model="icon"
+                v-model="custom_app.icon"
                 :rules="stringRules"
                 required
             ></v-text-field>
             <v-text-field
                 label="Description"
                 placeholder="Describe it"
-                v-model="description"
+                v-model="custom_app.description"
             ></v-text-field>
             <v-text-field
                 label="Checklist Items"
                 placeholder="comma separated"
-                v-model="todoList"
+                v-model="custom_app.todoList"
                 :rules="stringRules"
                 required
             ></v-text-field>
@@ -49,38 +49,60 @@
     export default {
         data: () => ({
             valid: true,
-            title: '',
-            description: '',
-            icon: '',
-            todoList: '',
+            custom_app: {
+                title: '',
+                description: '',
+                icon: '',
+                todoList: '',
+                items: [],
+                id: null
+            },
             stringRules: [
                 v => !!v || 'This field is required'
             ]
         }),
         computed: mapState([
-            'author',
-            'session',
-            'items'
+            'apps',
+            'route'
         ]),
+        mounted () {
+            this.resetApp()
+        },
         methods: {
             submit () {
                 if (this.$refs.form.validate()) {
-                    const item = {
-                        title: this.title,
-                        description: this.description,
-                        icon: this.icon,
-                        todoList: this.todoList
-                    }
-                    this.setItem(item)
-                    this.clear()
+                    this.setApp(this.custom_app)
+                    this.$router.push({
+                        name: 'default'
+                    })
                 }
             },
             clear () {
-                this.$refs.form.reset()
+                this.$refs.form && this.$refs.form.reset()
             },
             ...mapActions([
-                'setItem'
-            ])
+                'setApp'
+            ]),
+            resetApp() {
+                const appId = this.route.params.appId
+                if(appId == undefined) {
+                    this.clear()
+                    return
+                }
+                this.custom_app = this.deepClone(this.apps[appId])
+                this.custom_app.id = appId
+            },
+            deepClone(object) {
+                return JSON.parse(JSON.stringify(object));
+            }
+        },
+        watch: {
+            '$route.params.appId': {
+                immediate: true,
+                handler (value) {
+                    this.resetApp()
+                }
+            }
         }
     }
 </script>

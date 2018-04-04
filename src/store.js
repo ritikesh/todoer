@@ -12,7 +12,7 @@ export default new Vuex.Store({
         })
     ],
     state: {
-        items: [
+        apps: [
         ],
         author: null,
         session: null
@@ -22,13 +22,24 @@ export default new Vuex.Store({
             state.author = author
             state.session = !!(author)
         },
+        setApp(state, app) {
+            const apps = state.apps
+            if(app.id == undefined) {
+                app.id = apps.length
+                apps.push(app)
+            } else {
+                apps[app.id] = app
+            }
+        },
         setItem(state, item) {
-            const items = state.items || []
+            const app = state.apps[item.appId]
+            if(app == undefined) return
+            const items = app.items
+            item.id = items.length
             items.push(item)
-            state.items = items
         },
         logout(state) {
-            state.items = []
+            state.apps = []
             state.author = null
             state.session = null
         }
@@ -36,6 +47,9 @@ export default new Vuex.Store({
     actions: {
         setAuthor ({commit}, author) {
             commit('setAuthor', author)
+        },
+        setApp({commit}, app) {
+            commit('setApp', app)
         },
         setItem({commit}, item) {
             commit('setItem', item)

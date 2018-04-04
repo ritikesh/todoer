@@ -9,23 +9,48 @@
         <v-list>
           <v-list-tile>
             <v-list-tile-title class="title">
-              Checklists
+              <router-link
+                class="navigation_title purple--text"
+                :to="{ 
+                  name: 'default', 
+                }">
+                <!-- <v-icon medium>apps</v-icon>  -->
+                CHECKER
+              </router-link>
             </v-list-tile-title>
           </v-list-tile>
           <v-list-tile 
             value="true"
-            v-for="(item, i) in items"
+            v-for="(app, i) in apps"
             :key="i">
               <v-list-tile-action>
-              <img v-bind:src="item.icon" />
+                <img v-bind:src="app.icon" />
               </v-list-tile-action>
               <v-list-tile-content>
-              <v-list-tile-title v-text="item.title"></v-list-tile-title>
+                <v-list-tile-title v-text="app.title"></v-list-tile-title>
               </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn icon flat
+                  :to="{ 
+                    name: 'edit-app', 
+                    params: { appId: i }
+                  }">
+                  <v-icon>edit</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+              <v-list-tile-action>
+                <v-btn icon flat
+                  :to="{ 
+                    name: 'add-item', 
+                    params: { appId: i }
+                  }">
+                  <v-icon>add</v-icon>
+                </v-btn>
+              </v-list-tile-action>
           </v-list-tile>
           <v-list-tile 
             value="true"
-            v-if="!items.length">
+            v-if="!apps.length">
               <v-list-tile-action>
                 <v-icon>block</v-icon>
               </v-list-tile-action>
@@ -84,7 +109,7 @@
     computed: mapState([
         'author',
         'session',
-        'items'
+        'apps'
     ]),
     methods: {
       authorMessage: function() {
@@ -101,5 +126,11 @@
 </script>
 
 <style scoped>
-
+.navigation_title {
+  text-decoration: none;
+  color: initial;
+}
+.list__tile__action {
+  min-width: 30px;
+}
 </style>
