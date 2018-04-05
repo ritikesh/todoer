@@ -16,7 +16,7 @@
                   name: 'default', 
                 }">
                 <!-- <v-icon medium>apps</v-icon>  -->
-                CHECKER
+                TodoEr
               </router-link>
             </v-list-tile-title>
           </v-list-tile>

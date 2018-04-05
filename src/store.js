@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
-const LOCAL_STORE_KEY = 'checker_app_v1'
+const LOCAL_STORE_KEY = 'TodoEr_App_V1'
 
 const store = new Vuex.Store({
     strict: true,

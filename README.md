@@ -1,6 +1,10 @@
-# checker
+# TodoEr
 
-> simple to-do checklist
+## TodoList on steroids. 
+
+Have you come across the need to reuse checklists and end up copy-pasting? Normal Todos do not allow you to create **Object Oriented** type `instances` of the checklists. 
+
+In my efforts to get some hands-on with vue.js, I ended up creating a Todo List that solves this exact problem. 
 
 ## Build Setup
 
@@ -15,4 +19,4 @@ npm run dev
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+**NOTE**: The app runs on browser only and stores data on the browser's `localStore`. Clearing cache/browsing data would result in loss of all settings/data. Export app configurations before clearing cache and use them back when starting over.

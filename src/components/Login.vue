@@ -9,9 +9,12 @@
             @keyup.enter="addName"
             @keyup.esc="username=null"
             v-model="username"
-            class="mt-3"
+            class="mt-5"
         ></v-text-field>
-        <v-divider class="mt-5" />
+        <h3 class="mt-5 text-sm-center">
+          OR
+        </h3>
+        <v-divider />
         <h2 class="headline mt-5">
           Import Configurations
         </h2>
