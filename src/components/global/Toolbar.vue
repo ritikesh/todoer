@@ -5,12 +5,13 @@
       :mini-variant="miniVariant"
       :clipped="clipped"
       v-model="drawer"
+      width="400"
       app>
         <v-list>
           <v-list-tile>
             <v-list-tile-title class="title">
               <router-link
-                class="navigation_title purple--text"
+                class="navigation_link purple--text"
                 :to="{ 
                   name: 'default', 
                 }">
@@ -43,6 +44,12 @@
               </v-list-tile-action>
               <v-list-tile-action>
                 <v-btn icon flat
+                  @click.native="deleteAppHandler(i)">
+                  <v-icon>delete</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+              <v-list-tile-action>
+                <v-btn icon flat
                   :to="{ 
                     name: 'add-item', 
                     params: { appId: i }
@@ -58,7 +65,7 @@
               :key="n">
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <router-link 
+                  <router-link class="navigation_link"
                     :to="{ 
                       name: 'show-item', 
                       params: { appId: i, itemId: n }
@@ -74,6 +81,12 @@
                     params: { appId: i, itemId: n }
                   }">
                   <v-icon>edit</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+              <v-list-tile-action>
+                <v-btn icon flat
+                  @click.native="deleteItemHandler({id: n, appId: i})">
+                  <v-icon>delete</v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
@@ -137,6 +150,11 @@
         <v-icon>add</v-icon>
       </v-btn>
       <v-btn fab small dark color="purple"
+        @click.native="exportHandler"
+        v-if="session">
+        <v-icon>import_export</v-icon>
+      </v-btn>
+      <v-btn fab small dark color="purple"
         @click="logoutHandler"
         v-if="session">
         <v-icon>power_settings_new</v-icon>
@@ -158,11 +176,13 @@
         miniVariant: false
       }
     },
-    computed: mapState([
+    computed: {
+      ...mapState([
         'author',
         'session',
         'apps'
-    ]),
+      ])
+    },
     methods: {
       authorMessage: function() {
         return `Welcome, ${this.author}`
@@ -173,19 +193,46 @@
           name: 'default'
         })
       },
+      exportHandler: function() {
+        this.$router.push({
+          name: 'default',
+          query: {
+            export: 1
+          }
+        })
+      },
+      deleteAppHandler: function(appId) {
+        this.deleteApp(appId)
+        this.$router.push({
+          name: 'default'
+        })
+      },
+      deleteItemHandler: function(item) {
+        this.deleteItem(item)
+        this.$router.push({
+          name: 'default'
+        })
+      },
       ...mapActions([
-        'logout'
+        'logout',
+        'deleteApp',
+        'deleteItem'
       ])
     },
   }
 </script>
-
 <style scoped>
-.navigation_title {
-  text-decoration: none;
-  color: initial;
-}
-.list__tile__action {
-  min-width: 30px;
-}
+  .navigation_link {
+    text-decoration: none;
+    color: initial;
+  }
+  .list__tile__action {
+    min-width: 30px;
+  }
 </style>
+<style>
+  .list__group__items .list__tile:hover {
+    background-color: #ccc;
+  }
+</style>
+

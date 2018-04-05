@@ -4,11 +4,13 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
+const LOCAL_STORE_KEY = 'checker_app_v1'
+
 const store = new Vuex.Store({
     strict: true,
     plugins: [
         createPersistedState({
-            key: "checker_app_v1"
+            key: LOCAL_STORE_KEY
         })
     ],
     state: {
@@ -23,6 +25,14 @@ const store = new Vuex.Store({
         },
         cloneObject: (state) => (obj) => {
             return JSON.parse(JSON.stringify(obj));
+        },
+        exportState: (state) => {
+            const exportableState = {
+                apps: state.apps,
+                author: state.author,
+                session: state.session
+            }
+            return JSON.stringify(exportableState);
         }
     },
     mutations: {
@@ -39,6 +49,9 @@ const store = new Vuex.Store({
                 apps[app.id] = app
             }
         },
+        deleteApp(state, appId) {
+            state.apps.splice(appId, 1);
+        },
         setItem(state, item) {
             const app = state.apps[item.appId]
             if(app == undefined) return
@@ -49,6 +62,14 @@ const store = new Vuex.Store({
             } else {
                 items[item.id] = item
             }
+        },
+        deleteItem(state, item) {
+            state.apps[item.appId].items.splice(item.id, 1);
+        },
+        importState(state, json_obj) {
+            state.author = json_obj.author
+            state.session = json_obj.session
+            state.apps = json_obj.apps
         },
         logout(state) {
             state.apps = []
@@ -63,8 +84,17 @@ const store = new Vuex.Store({
         setApp({commit}, app) {
             commit('setApp', app)
         },
+        deleteApp({commit}, appId) {
+            commit('deleteApp', appId)
+        },
         setItem({commit}, item) {
             commit('setItem', item)
+        },
+        deleteItem({commit}, item) {
+            commit('deleteItem', item)
+        },
+        importState({commit}, json_obj) {
+            commit('importState', json_obj)
         },
         logout({commit}) {
             commit('logout')
