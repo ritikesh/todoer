@@ -7,6 +7,12 @@ Have you come across the need to reuse checklists and end up copy-pasting? Norma
 
 In my efforts to get some hands-on with vue.js, I ended up creating a Todo List that solves this exact problem. 
 
+Example usage:
+
+![TodoEr Sample 1][examples/image-1]
+
+[examples/image-1]: examples/image-1.png "Sample usage screenshot"
+
 ## Build Setup
 
 ``` bash
