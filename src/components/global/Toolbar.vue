@@ -5,7 +5,7 @@
       :mini-variant="miniVariant"
       :clipped="clipped"
       v-model="drawer"
-      width="400"
+      width="350"
       app>
         <v-list>
           <v-list-tile>
@@ -20,10 +20,12 @@
               </router-link>
             </v-list-tile-title>
           </v-list-tile>
+          <v-divider />
           <v-list-group
             v-for="(app, i) in apps"
             :key="i"
             no-action
+            class="mt-2"
           >
             <v-list-tile slot="activator">
               <v-list-tile-avatar>
