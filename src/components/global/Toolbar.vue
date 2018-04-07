@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <div>
     <v-navigation-drawer
       fixed
       :clipped="clipped"
@@ -142,12 +142,6 @@
       <v-toolbar-side-icon 
         @click.stop="drawer = !drawer"
       ></v-toolbar-side-icon>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>remove</v-icon>
-      </v-btn>
       <v-toolbar-title>
         <router-link
           class="navigation_link purple--text"
@@ -157,8 +151,15 @@
           TodoEr
         </router-link>
       </v-toolbar-title>
+      <v-spacer />
+      <v-btn icon @click.stop="clipped = !clipped">
+        <v-icon>web</v-icon>
+      </v-btn>
+      <v-btn icon @click.stop="fixed = !fixed">
+        <v-icon>remove</v-icon>
+      </v-btn>
     </v-toolbar>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -170,7 +171,7 @@
       return {
         fixed: false,
         clipped: false,
-        drawer: true
+        drawer: false
       }
     },
     computed: {
