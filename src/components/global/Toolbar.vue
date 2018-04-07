@@ -19,7 +19,7 @@
                   name: 'add-app'
                 }"
                 v-if="session"
-                class="mr-1">
+                class="header_icons mr-1">
                 <v-icon>add</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -27,14 +27,15 @@
               <v-btn small dark fab
                 @click.native="exportHandler"
                 v-if="session"
-                class="mr-1">
+                class="header_icons mr-1">
                 <v-icon>import_export</v-icon>
               </v-btn>
             </v-list-tile-action>
             <v-list-tile-action>
               <v-btn small dark fab
                 @click="logoutHandler"
-                v-if="session">
+                v-if="session"
+                class="header_icons">
                 <v-icon>power_settings_new</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -228,10 +229,17 @@
   .list__tile__action {
     min-width: 30px;
   }
+  .header_icons {
+    height: 32px;
+    width: 32px;
+  }
 </style>
 <style>
   .list__group__items .list__tile:hover {
     background-color: #ccc;
+  }
+  .list__group__header .list__group__header__append-icon {
+    padding: 0 10px 0 0;
   }
 </style>
 

@@ -68,7 +68,7 @@
                     const item = this.item
                     item.todoMap = this.getTodoList(item.appId)
                         .reduce(function(result, item, index, array) {
-                            result[index] = false; //a, b, c
+                            result[index] = false;
                             return result;
                     }, {})
                     this.setItem(item)

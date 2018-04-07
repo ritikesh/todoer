@@ -56,9 +56,6 @@
             toggle () {
                 this.setItem(this.item)
             },
-            toggleAll () {
-                // toggle All checkboxes
-            },
             ...mapActions([
                 'setItem'
             ]),

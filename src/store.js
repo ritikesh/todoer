@@ -46,7 +46,7 @@ const store = new Vuex.Store({
                 app.id = apps.length
                 apps.push(app)
             } else {
-                apps[app.id] = app
+                apps.splice(app.id,1,app)
             }
         },
         deleteApp(state, appId) {
@@ -60,7 +60,7 @@ const store = new Vuex.Store({
                 item.id = items.length
                 items.push(item)
             } else {
-                items[item.id] = item
+                items.splice(item.id,1,item)
             }
         },
         deleteItem(state, item) {

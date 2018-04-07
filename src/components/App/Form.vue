@@ -68,7 +68,6 @@
                 'route'
             ]),
             ...mapGetters([
-                'getTodoList',
                 'cloneObject'
             ])
         },
