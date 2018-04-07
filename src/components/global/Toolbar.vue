@@ -2,23 +2,42 @@
   <main>
     <v-navigation-drawer
       fixed
-      :mini-variant="miniVariant"
       :clipped="clipped"
       v-model="drawer"
       width="350"
       app>
         <v-list>
           <v-list-tile>
-            <v-list-tile-title class="title">
-              <router-link
-                class="navigation_link purple--text"
-                :to="{ 
-                  name: 'default', 
-                }">
-                <!-- <v-icon medium>apps</v-icon>  -->
-                TodoEr
-              </router-link>
-            </v-list-tile-title>
+            <v-list-tile-content>
+              <v-list-tile-title class="title">
+                {{authorMessage() }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-btn small dark fab
+                :to="{
+                  name: 'add-app'
+                }"
+                v-if="session"
+                class="mr-1">
+                <v-icon>add</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+            <v-list-tile-action>
+              <v-btn small dark fab
+                @click.native="exportHandler"
+                v-if="session"
+                class="mr-1">
+                <v-icon>import_export</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+            <v-list-tile-action>
+              <v-btn small dark fab
+                @click="logoutHandler"
+                v-if="session">
+                <v-icon>power_settings_new</v-icon>
+              </v-btn>
+            </v-list-tile-action>
           </v-list-tile>
           <v-divider />
           <v-list-group
@@ -37,6 +56,16 @@
               <v-list-tile-action>
                 <v-btn icon flat
                   :to="{ 
+                    name: 'add-item', 
+                    params: { appId: i }
+                  }"
+                  @click.native.stop>
+                  <v-icon>add</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+              <v-list-tile-action>
+                <v-btn icon flat
+                  :to="{ 
                     name: 'edit-app', 
                     params: { appId: i }
                   }"
@@ -48,16 +77,6 @@
                 <v-btn icon flat
                   @click.native="deleteAppHandler(i)">
                   <v-icon>delete</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-              <v-list-tile-action>
-                <v-btn icon flat
-                  :to="{ 
-                    name: 'add-item', 
-                    params: { appId: i }
-                  }"
-                  @click.native.stop>
-                  <v-icon>add</v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
@@ -114,53 +133,29 @@
                   No Lists Found
                 </v-list-tile-title>
               </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn dark medium flat
-                  :to="{
-                    name: 'add-app'
-                  }"
-                  v-if="session"
-                  color="purple">
-                  Add Now
-                </v-btn>
-              </v-list-tile-action>
           </v-list-tile>
         </v-list>
     </v-navigation-drawer>
     <v-toolbar 
       fixed app :clipped-left="clipped">
       <v-toolbar-side-icon 
-          @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-      </v-btn>
+        @click.stop="drawer = !drawer"
+      ></v-toolbar-side-icon>
       <v-btn icon @click.stop="clipped = !clipped">
         <v-icon>web</v-icon>
       </v-btn>
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>remove</v-icon>
       </v-btn>
-      <v-toolbar-title v-if="session">
-        {{authorMessage()}}
+      <v-toolbar-title>
+        <router-link
+          class="navigation_link purple--text"
+          :to="{ 
+            name: 'default', 
+          }">
+          TodoEr
+        </router-link>
       </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn fab small dark color="purple"
-        :to="{
-          name: 'add-app'
-        }"
-        v-if="session">
-        <v-icon>add</v-icon>
-      </v-btn>
-      <v-btn fab small dark color="purple"
-        @click.native="exportHandler"
-        v-if="session">
-        <v-icon>import_export</v-icon>
-      </v-btn>
-      <v-btn fab small dark color="purple"
-        @click="logoutHandler"
-        v-if="session">
-        <v-icon>power_settings_new</v-icon>
-      </v-btn>
     </v-toolbar>
   </main>
 </template>
@@ -174,8 +169,7 @@
       return {
         fixed: false,
         clipped: false,
-        drawer: true,
-        miniVariant: false
+        drawer: true
       }
     },
     computed: {
@@ -187,7 +181,10 @@
     },
     methods: {
       authorMessage: function() {
-        return `Welcome, ${this.author}`
+        if(!this.session) {
+          return "Hello, Guest!"
+        }
+        return `${this.author}`
       },
       logoutHandler: function() {
         this.logout()
