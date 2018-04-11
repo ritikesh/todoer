@@ -26,12 +26,15 @@
             ></v-text-field>
             <v-text-field
                 label="Checklist Items"
-                placeholder="comma separated"
-                v-model="custom_app.todoList"
-                :rules="stringRules"
-                required
+                placeholder="enter to add new"
+                v-model="todo_input"
+                @keyup.enter="addTodo"
+                @keyup.esc="todo_input=''"
+                :rules="[
+                    () => !!todo_input || !!custom_app.todoList.length || 'At least one item is required'
+                ]"
             ></v-text-field>
-
+            <todo :todos="custom_app.todoList" />
             <v-btn
                 @click="submit"
                 :disabled="!valid"
@@ -46,15 +49,17 @@
     import { mapState } from 'vuex'
     import { mapActions } from 'vuex'
     import { mapGetters } from 'vuex'
+    import Todo from './Todo'
 
     export default {
         data: () => ({
             valid: true,
+            todo_input: "",
             custom_app: {
                 title: '',
                 description: '',
                 icon: '',
-                todoList: '',
+                todoList: [],
                 items: [],
                 id: null
             },
@@ -86,6 +91,10 @@
             clear () {
                 this.$refs.form && this.$refs.form.reset()
             },
+            addTodo() {
+                this.custom_app.todoList.push(this.todo_input)
+                this.todo_input = ''
+            },
             ...mapActions([
                 'setApp'
             ]),
@@ -106,6 +115,9 @@
                     this.resetApp()
                 }
             }
+        },
+        components: {
+            Todo
         }
     }
 </script>

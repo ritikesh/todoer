@@ -9,15 +9,15 @@
         </p>
         <v-list-tile
             value="true"
-            class="mt-4"
             v-for="(todo, n) in this.getTodoList(item.appId)"
             :key="n">
-            <v-list-tile-content>
-                <v-switch 
+            <v-list-tile-content class="title">
+                <v-checkbox 
                 :label="todo" 
                 v-model="item.todoMap[n]"
-                @click.native="toggle">
-                </v-switch>
+                @click.native="toggle"
+                :class="item.todoMap[n] ? 'text_line_through' : ''">
+                </v-checkbox>
             </v-list-tile-content>
         </v-list-tile>
       </v-container>
@@ -55,6 +55,7 @@
         methods: {
             toggle () {
                 this.setItem(this.item)
+                this.resetItem()
             },
             ...mapActions([
                 'setItem'
@@ -76,5 +77,13 @@
     }
 </script>
 
-<style scoped>
+<style>
+.theme--light div.checkbox.input-group > label {
+    color: #000;
+}
+
+.theme--light div.checkbox.input-group.text_line_through > label {
+    text-decoration: line-through;
+    color: #CCC;
+}
 </style>

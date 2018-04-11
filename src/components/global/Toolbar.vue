@@ -171,7 +171,7 @@
       return {
         fixed: false,
         clipped: false,
-        drawer: false
+        drawer: true
       }
     },
     computed: {
@@ -233,6 +233,9 @@
   .header_icons {
     height: 32px;
     width: 32px;
+  }
+  .list .list__group--active:before {
+    background: none;
   }
 </style>
 <style>
