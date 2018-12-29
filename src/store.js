@@ -23,6 +23,13 @@ const store = new Vuex.Store({
         getTodoList: (state) => (appId) => {
             return state.apps[appId].todoList
         },
+        itemCompleted: (state) => (appId, itemId) => {
+            const item = state.apps[appId].items[itemId]
+            return Object.entries(item.todoMap).reduce(function (ret, obj) {
+                const [key, value] = obj;
+                return ret && value;
+            }, true);
+        },
         cloneObject: (state) => (obj) => {
             return JSON.parse(JSON.stringify(obj));
         },

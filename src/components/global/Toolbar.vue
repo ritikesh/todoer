@@ -45,11 +45,14 @@
             v-for="(app, i) in apps"
             :key="i"
             no-action
-            class="mt-2"
+            :class="(true ? 'checked' : '') + ' mt-2'"
           >
             <v-list-tile slot="activator">
               <v-list-tile-avatar>
-                <img v-bind:src="app.icon" />
+                <img 
+                  v-bind:src="app.icon" 
+                  :style="{ height: '35px', width: '30px' }"
+                />
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title v-text="app.title"></v-list-tile-title>
@@ -83,18 +86,27 @@
             </v-list-tile>
             <v-list-tile
               value="true"
+              :class="itemCompleted(i, n) ? 'checked' : ''"
               v-for="(item, n) in app.items"
               :key="n">
               <v-list-tile-content>
-                <v-list-tile-title>
-                  <router-link class="navigation_link"
-                    :to="{ 
-                      name: 'show-item', 
-                      params: { appId: i, itemId: n }
-                    }">
+                <router-link class="navigation_link"
+                  :to="{ 
+                    name: 'show-item', 
+                    params: { appId: i, itemId: n }
+                  }">
+                  <v-list-tile-title>
+                    <v-icon
+                    v-if="itemCompleted(i, n)">
+                      done
+                    </v-icon>
+                    <v-icon
+                    v-if="!itemCompleted(i, n)">
+                      toc
+                    </v-icon>
                     {{item.title}}
-                  </router-link>
-                </v-list-tile-title>
+                  </v-list-tile-title>
+                </router-link>
               </v-list-tile-content>
               <v-list-tile-action>
                 <v-btn icon flat
@@ -165,6 +177,7 @@
 <script>
   import { mapState } from 'vuex'
   import { mapActions } from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     data () {
@@ -179,6 +192,9 @@
         'author',
         'session',
         'apps'
+      ]),
+      ...mapGetters([
+        'itemCompleted'
       ])
     },
     methods: {
@@ -225,25 +241,62 @@
 <style scoped>
   .navigation_link {
     text-decoration: none;
-    color: initial;
+    color: inherit;
   }
-  .list__tile__action {
-    min-width: 30px;
+  .header_icons, .list__tile__action {
+    height: 24px;
+    width: 24px;
   }
-  .header_icons {
-    height: 32px;
-    width: 32px;
+  .list__tile__action i {
+    font-size: 21px;
+  }
+  .list__tile__avatar .avatar {
+    width: initial;
+    height: initial;
+    max-width: 40px;
+    max-height: 40px;
   }
   .list .list__group--active:before {
     background: none;
+  }
+  .list__group__items .list__tile__content {
+    color: orange;
+  }
+  .list__group__items .checked .list__tile__content {
+    color: green;
+  }
+  .icon.material-icons {
+    color: inherit;
   }
 </style>
 <style>
   .list__group__items .list__tile:hover {
     background-color: #ccc;
   }
+  .list__tile.visited {
+    background-color: #ccc;
+  }
+  .list__tile__action {
+    min-width: 35px;
+  }
   .list__group__header .list__group__header__append-icon {
-    padding: 0 10px 0 0;
+    padding: 0 15px 0 0;
+  }
+  .router-link-exact-active {
+    font-size: 30px;
+  }
+  .router-link-exact-active::after {
+    content: "";
+    height: 0.6rem;
+    width: 0.6rem;
+    line-height: 1rem;
+    position: absolute;
+    top: 20px;
+    right: 5px;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 50%;
+    background: rgba(0,0,255,1);
   }
 </style>
 
